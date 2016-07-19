@@ -3,6 +3,7 @@ use std::sync::{Arc, Mutex};
 use std::sync::atomic::{AtomicUsize, Ordering};
 use std::fs::File;
 use std::thread;
+use std::time::Duration;
 
 use byteorder::{LittleEndian, ReadBytesExt, WriteBytesExt};
 
@@ -33,9 +34,12 @@ impl TrollCount {
                 return;
             }
 
+            // Give it a little time in case a bunch of requests come in
+            thread::sleep(Duration::from_millis(100));
+            let value = value.load(Ordering::Relaxed) as u64;
+
             match File::create("troll-count.txt") {
                 Ok(mut file) => {
-                    let value = value.load(Ordering::Relaxed) as u64;
                     file.write_u64::<LittleEndian>(value)
                         .expect("Failure while writing to troll-count.txt");
                 },
@@ -51,12 +55,12 @@ impl TrollCount {
     }
 
     pub fn tick(&self) {
-        self.value.fetch_add(1, Ordering::Relaxed);
+        self.value.fetch_add(1, Ordering::SeqCst);
         self.mailbox.lock().unwrap().as_ref().map(|sender| sender.try_send(()).ok());
     }
 
     pub fn value(&self) -> usize {
-        self.value.load(Ordering::Relaxed)
+        self.value.load(Ordering::SeqCst)
     }
 }
 

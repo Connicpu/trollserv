@@ -16,6 +16,9 @@ fn main() {
         let mut path = request.url.path().into_iter();
 
         match path.next().unwrap_or("404.html") {
+            // Favicon
+            "favicon.ico" => serve_static("image/ico", assets::TROLL_ICO),
+
             // The main page
             ""           => serve_home(&troll_count),
             "index.html" => serve_home(&troll_count),
@@ -23,6 +26,7 @@ fn main() {
 
             // Assets
             "troll.js"   => serve_static("text/javascript", assets::TROLL_JS),
+            "troll.css"  => serve_static("text/css", assets::TROLL_CSS),
             "troll.gif"  => serve_static("image/gif", assets::TROLL_GIF),
             "troll.mp3"  => serve_static("audio/mp3", assets::TROLL_MP3),
             "troll.ogg"  => serve_static("audio/ogg", assets::TROLL_OGG),
