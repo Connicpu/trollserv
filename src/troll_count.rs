@@ -30,20 +30,22 @@ impl TrollCount {
         let value_clone = value.clone();
 
         let joiner = thread::spawn(move || {
-            if receiver.recv().is_err() {
-                return;
-            }
+            loop {
+                if receiver.recv().is_err() {
+                    return;
+                }
 
-            // Give it a little time in case a bunch of requests come in
-            thread::sleep(Duration::from_millis(100));
-            let value = value.load(Ordering::Relaxed) as u64;
+                // Give it a little time in case a bunch of requests come in
+                thread::sleep(Duration::from_millis(100));
+                let value = value.load(Ordering::Relaxed) as u64;
 
-            match File::create("troll-count.txt") {
-                Ok(mut file) => {
-                    file.write_u64::<LittleEndian>(value)
-                        .expect("Failure while writing to troll-count.txt");
-                },
-                Err(e) => println!("[WARNING]: Failed to write to troll-count.txt: {:?}", e),
+                match File::create("troll-count.txt") {
+                    Ok(mut file) => {
+                        file.write_u64::<LittleEndian>(value)
+                            .expect("Failure while writing to troll-count.txt");
+                    },
+                    Err(e) => println!("[WARNING]: Failed to write to troll-count.txt: {:?}", e),
+                }
             }
         });
 
