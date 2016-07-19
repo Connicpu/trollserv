@@ -1,3 +1,7 @@
+function pingTrollCount() {
+    
+}
+
 function onReady() {
     var width = window.innerWidth || window.clientWidth;
     var height = window.innerHeight || window.clientHeight;
