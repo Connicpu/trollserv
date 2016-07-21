@@ -1,3 +1,7 @@
+function isMobile() {
+    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+}
+
 function pingTrollCount() {
     var xhr = new XMLHttpRequest();
     xhr.addEventListener("load", function() {
@@ -8,9 +12,28 @@ function pingTrollCount() {
     xhr.send();
 }
 
-function fixTroll() {
-    var width = window.innerWidth || window.clientWidth;
-    var height = window.innerHeight || window.clientHeight;
+function mobileTroll() {
+    var trollman = document.getElementById("trollman");
+    var container = document.getElementById("text-container");
+    var handler;
+
+    handler = function() {
+        trollman.removeEventListener("click", handler);
+        trollman.src = "troll.gif";
+        container.style.display = "";
+        
+        var player = document.getElementById("player");
+        player.play();
+    }
+
+    trollman.src = "play.png";
+    trollman.addEventListener("click", handler);
+    container.style.display = "none";
+}
+
+function fixTroll(size) {
+    var width = size || window.innerWidth || window.clientWidth;
+    var height = size || window.innerHeight || window.clientHeight;
 
     var trollman = document.getElementById("trollman");
     if (width < height) {
@@ -36,7 +59,15 @@ function trollTime() {
 
 function onReady() {
     fixTroll();
-    window.addEventListener("resize", fixTroll);
+
+    if (isMobile()) {
+        mobileTroll(true);
+    } else {
+        var player = document.getElementById("player");
+        player.play();
+    }
+    
+    window.addEventListener("resize", function() { fixTroll(); });
 
     pingTrollCount();
     setInterval(pingTrollCount, 5000);

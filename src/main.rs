@@ -32,6 +32,7 @@ fn main() {
             "troll.gif"  => serve_static("image/gif", assets::TROLL_GIF, Some(60*60*24)),
             "troll.mp3"  => serve_static("audio/mp3", assets::TROLL_MP3, Some(60*60*24)),
             "troll.ogg"  => serve_static("audio/ogg", assets::TROLL_OGG, Some(60*60*24)),
+            "play.png"   => serve_static("image/gif", assets::PLAY_PNG, Some(60*60*24)),
 
             // Get the number of trolls served
             "count.txt"  => serve_count(&troll_count),

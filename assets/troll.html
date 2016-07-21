@@ -8,18 +8,20 @@
         <div id="troll-container">
             <image id="trollman" src="troll.gif" alt="u mad?" />
         </div>
-        <div>
-            <span id="hits"></span>
-            <span>hits so far!</span>
-            <audio autoplay loop controls>
-                <source src="troll.mp3" type="audio/mp3" />
-                <source src="troll.ogg" type="audio/ogg" />
-            </audio>
-        </div>
-        <div style="float: right; display: inline">
-            <span>You have been trolled for</span>
-            <span id="trolltime">0</span>
-            <span>seconds</span>
+        <div id="text-container">
+            <div>
+                <span id="hits"></span>
+                <span>hits so far!</span>
+                <audio id="player" loop>
+                    <source src="troll.mp3" type="audio/mp3" />
+                    <source src="troll.ogg" type="audio/ogg" />
+                </audio>
+            </div>
+            <div style="float: right; display: inline">
+                <span>You have been trolled for</span>
+                <span id="trolltime">0</span>
+                <span>seconds</span>
+            </div>
         </div>
     </body>
 </html>
