@@ -60,10 +60,14 @@ function trollTime() {
 function onReady() {
     fixTroll();
 
+    var player = document.getElementById("player");
+    player.addEventListener("ended", function() {
+        player.play();
+    });
+
     if (isMobile()) {
         mobileTroll(true);
     } else {
-        var player = document.getElementById("player");
         player.play();
     }
     
