@@ -40,7 +40,7 @@ fn main() {
             // 404
             _ => serve_static("text/html", assets::HTTP_404, Some(60*60*24)),
         }
-    }).http("localhost:1337").expect("Failed to create HTTP server");
+    }).http("0.0.0.0:1337").expect("Failed to create HTTP server");
 }
 
 fn serve_home(count: &TrollCount) -> IronResult<Response> {

@@ -6,3 +6,6 @@ authors = ["Connor Hilarides <connorcpu@live.com>"]
 [dependencies]
 iron = "0.4"
 byteorder = "0.5"
+
+[profile.release]
+panic = 'abort'
