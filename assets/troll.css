@@ -1,3 +1,12 @@
 #troll-container {
     margin: 0 auto;
 }
+
+.flex { display: flex }
+.flex-row { flex-direction: row }
+.flex-column { flex-direction: column }
+.flex-between { justify-content: space-between }
+.flex-fill { flex: 1 }
+.flex-start { align-self: flex-start }
+.flex-end { align-self: flex-end }
+.flex-center { align-self: center }

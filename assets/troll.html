@@ -4,20 +4,23 @@
         <script src="troll.js"></script>
         <link rel="stylesheet" href="troll.css" />
     </head>
-    <body>
+    <body class="flex flex-column">
         <audio id="player" preload>
             <source src="troll.ogg" type="audio/ogg" />
             <source src="troll.mp3" type="audio/mp3" />
         </audio>
-        <div id="troll-container">
+        <div id="troll-container" class="flex-fill">
             <image id="trollman" src="troll.gif" alt="u mad?" />
         </div>
-        <div id="text-container">
-            <div style="float: left; display: inline">
+        <div id="text-container" class="flex flex-row">
+            <div class="flex-start">
                 <span id="hits"></span>
                 <span>hits so far!</span>
             </div>
-            <div style="float: right; display: inline">
+            <div class="flex-fill"></div>
+            <button href="javascript:;" class="mute flex-center">Mute</button>
+            <div class="flex-fill"></div>
+            <div class="flex-end">
                 <span>You have been trolled for</span>
                 <span id="trolltime">0</span>
                 <span>seconds</span>

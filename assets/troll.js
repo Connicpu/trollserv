@@ -65,6 +65,15 @@ function onReady() {
         player.play();
     });
 
+    var mute = document.querySelector('.mute');
+    mute.addEventListener('click', function clickMute() {
+        if(player.volume > 0) {
+            player.volume = 0;
+        } else {
+            player.volume = 1;
+        }
+    });
+
     if (isMobile()) {
         mobileTroll(true);
     } else {
