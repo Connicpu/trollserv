@@ -5,8 +5,10 @@ function isMobile() {
 function pingTrollCount() {
     var xhr = new XMLHttpRequest();
     xhr.addEventListener("load", function() {
-        var hits = document.getElementById("hits");
-        hits.innerText = this.responseText;
+        if (xhr.status == 200) {
+            var hits = document.getElementById("hits");
+            hits.innerText = xhr.responseText;
+        }
     });
     xhr.open("GET", "/count.txt");
     xhr.send();
