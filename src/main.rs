@@ -70,7 +70,7 @@ fn config() -> rocket::config::Config {
 }
 
 fn main() {
-    rocket::config(config(), false)
+    rocket::custom(config(), false)
         .mount("/",
                routes![index, troll_js, troll_css, troll_gif, troll_mp3, troll_ogg, play_png,
                        favicon])
