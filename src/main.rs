@@ -5,16 +5,23 @@
 extern crate redis;
 extern crate rocket;
 
+use redis::Commands;
+use rocket::State;
 use rocket::http::ContentType;
 use rocket::http::ascii::UncasedAscii;
 use rocket::response::content::*;
 use std::borrow::Cow;
 use std::env;
+use std::sync::Mutex;
 
 mod assets;
 
+type Redis = Mutex<redis::Connection>;
+
 #[get("/")]
-fn index() -> impl Response {
+fn index(redis: State<Redis>) -> impl Response {
+    let () = redis.lock().unwrap().incr("count", 1).unwrap();
+
     HTML(assets::TROLL_HTML)
 }
 
@@ -53,6 +60,12 @@ fn favicon() -> impl Response {
     Content(ICO, Bytes(assets::TROLL_ICO))
 }
 
+#[get("/count.txt")]
+fn count(redis: State<Redis>) -> impl Response {
+    let count: i64 = redis.lock().unwrap().get("count").unwrap();
+    Plain(format!("{}", count))
+}
+
 #[error(404)]
 fn not_found() -> impl Response {
     HTML(assets::HTTP_404)
@@ -71,11 +84,19 @@ fn config() -> rocket::config::Config {
 
 fn main() {
     rocket::custom(config(), false)
+        .manage(make_redis())
         .mount("/",
                routes![index, troll_js, troll_css, troll_gif, troll_mp3, troll_ogg, play_png,
-                       favicon])
+                       favicon, count])
         .catch(errors![not_found])
         .launch();
+}
+
+fn make_redis() -> Redis {
+    let url = env::var("REDIS_URL").unwrap();
+    let client = redis::Client::open(&url[..]).unwrap();
+    let conn = client.get_connection().unwrap();
+    Mutex::new(conn)
 }
 
 const GIF: ContentType = ContentType {
