@@ -1,0 +1,23 @@
+{
+  "name": "trollserv",
+  "scripts": {
+  },
+  "env": {
+    "REDIS_URL": {
+      "required": true
+    },
+    "ROCKET_ENV": {
+      "required": true
+    }
+  },
+  "formation": {
+  },
+  "addons": [
+    "heroku-redis"
+  ],
+  "buildpacks": [
+    {
+      "url": "https://github.com/emk/heroku-buildpack-rust"
+    }
+  ]
+}
