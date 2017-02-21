@@ -9,6 +9,7 @@ use rocket::http::ContentType;
 use rocket::http::ascii::UncasedAscii;
 use rocket::response::content::*;
 use std::borrow::Cow;
+use std::env;
 
 mod assets;
 
@@ -57,8 +58,19 @@ fn not_found() -> impl Response {
     HTML(assets::HTTP_404)
 }
 
+fn config() -> rocket::config::Config {
+    use rocket::config::*;
+
+    let env = Environment::active().unwrap();
+    let mut config = Config::build(env);
+    if let Some(port) = env::var("PORT").ok().and_then(|s| s.parse().ok()) {
+        config = config.port(port);
+    }
+    config.finalize().unwrap()
+}
+
 fn main() {
-    rocket::ignite()
+    rocket::config(config(), false)
         .mount("/",
                routes![index, troll_js, troll_css, troll_gif, troll_mp3, troll_ogg, play_png,
                        favicon])
