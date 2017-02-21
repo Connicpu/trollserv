@@ -1,1 +1,2 @@
 web: ./target/release/trollserv
+
